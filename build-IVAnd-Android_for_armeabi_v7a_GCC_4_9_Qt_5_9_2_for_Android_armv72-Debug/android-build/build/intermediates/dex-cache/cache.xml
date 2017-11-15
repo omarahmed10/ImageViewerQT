@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/omar/Qt_Android/build-IVAnd-Android_for_armeabi_v7a_GCC_4_9_Qt_5_9_2_for_Android_armv72-Debug/android-build/libs/QtAndroid-bundled.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="187e26c92eb4ae075bf10e6fd8f2629203f4ab24">
+        <dex dex="/home/omar/Qt_Android/build-IVAnd-Android_for_armeabi_v7a_GCC_4_9_Qt_5_9_2_for_Android_armv72-Debug/android-build/build/intermediates/pre-dexed/debug/QtAndroid-bundled_feb5189959f884a601962c3bebc18c1f24ca07c3.jar" />
+    </item>
+
+</items>

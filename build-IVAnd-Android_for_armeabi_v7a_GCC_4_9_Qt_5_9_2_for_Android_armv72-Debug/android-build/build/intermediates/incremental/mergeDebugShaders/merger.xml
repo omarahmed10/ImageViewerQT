@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/omar/Qt_Android/build-IVAnd-Android_for_armeabi_v7a_GCC_4_9_Qt_5_9_2_for_Android_armv72-Debug/android-build/src/main/shaders"/></dataSet><dataSet config="debug"><source path="/home/omar/Qt_Android/build-IVAnd-Android_for_armeabi_v7a_GCC_4_9_Qt_5_9_2_for_Android_armv72-Debug/android-build/src/debug/shaders"/></dataSet></merger>

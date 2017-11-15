@@ -101,9 +101,11 @@ void MainWindow::load_is_done(QString imagePath){
     //clear past undo/redo
     CommandController::getInst().clear();
 
+    ui->dial->setValue(0);
+
     // begin a new state
-    state = new State(image_original_width,image_original_height,old_angel,overall_angel,ui->zoom_slider->value());
-    State* state_new = new State(image_original_width,image_original_height,old_angel,overall_angel,ui->zoom_slider->value());
+    state = new State(image_original_width,image_original_height,0,0,ui->zoom_slider->value());
+    State* state_new = new State(image_original_width,image_original_height,0,0,ui->zoom_slider->value());
 
     // make create command
     Create* com = new Create(state_new,CREATE,ui);
@@ -112,33 +114,34 @@ void MainWindow::load_is_done(QString imagePath){
     CommandController::getInst().addCommand(com);
 
 }
-QString *path,*name;
-void getImageName(QString image){
+
+QString* getImageName(QString image){
     int i;
-    path = new QString("");
-    name = new QString("");
+    QString *name = new QString("");
     for(i = image.length()-1;i >= 0 ;i--){
         if(image[i] == '/')
-            break;
+            return name;
         name->push_front(image[i]);
     }
-    for(int j = 0; j < i;j++){
-        path->append(image[j]);
-    }
+    return name;
 }
 void MainWindow::on_save_button_clicked(){
     bool dialogResult;
-    getImageName(curr_imagePath);
+    QString *name = getImageName(curr_imagePath);
     QInputDialog *renameDialog = new QInputDialog();
     QString result = renameDialog->getText(0, "Save Image", "New name:", QLineEdit::Normal,
                                            *name, &dialogResult);
 
     if(result.length() > 0 && dialogResult){
         *name = result;
+        if(!(*name).contains(".",Qt::CaseInsensitive)){
+            *name += ".png";
+            qDebug() << *name << endl;
+        }
     }
     QString tmpString = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
 
-    if (ui->image_canvas->pixmap()->save(tmpString+ *name, 0,-1)) qDebug() << "Saved ";
+    if (ui->image_canvas->pixmap()->save(tmpString + "/" + *name, 0,-1)) qDebug() << "Saved ";
     else qDebug() << "Not Saved ";
 
     qDebug() << tmpString+*name << endl;
@@ -167,7 +170,7 @@ void MainWindow::on_zoom_slider_valueChanged(int value)
     if(ui->image_canvas->pixmap() == NULL)return ;
 
     QPixmap pixmap_new;
-    QPixmap pixmap = *(ui->image_canvas->pixmap());
+    QPixmap pixmap = *(ui->original_image->pixmap());
 
     int change = value;
 
@@ -176,8 +179,9 @@ void MainWindow::on_zoom_slider_valueChanged(int value)
 
     pixmap_new = pixmap.scaled(new_width,new_height,Qt::KeepAspectRatio,Qt::SmoothTransformation);
 
+    QTransform trans;
     // set ui image to new pixmap
-    if(!pixmap_new.isNull())ui->image_canvas->setPixmap(pixmap_new);
+    if(!pixmap_new.isNull())ui->image_canvas->setPixmap(pixmap_new.transformed(trans.rotate(overall_angel)));
     //slider_initial_value=value;
 
 }
